@@ -1,15 +1,5 @@
-// Проверка заполнености body
-const joi = require('joi');
-
 const contacts = require('../models/contacts');
-const { HttpError, ctrlWrapper } = require('../helpers');
-
-// Проверка на наличие всех полей в body
-const addSchema = joi.object({
-  name: joi.string().required(),
-  email: joi.string().required(),
-  phone: joi.string().required(),
-});
+const { httpError, ctrlWrapper } = require('../helpers');
 
 const getAllContacts = async (req, res, next) => {
   // try {
@@ -36,7 +26,7 @@ const getById = async (req, res, next) => {
 
     if (!result) {
       // Функция для обработки ошибок
-      throw HttpError(404, 'Not found');
+      throw httpError(404, 'Not found');
       // Если такого контакта нет, выводим сообщ. и добавляем статус ошибки
       // return res.status(404).json({
       //   message: 'Not found',
@@ -64,14 +54,9 @@ const getById = async (req, res, next) => {
 
 const addContact = async (req, res, next) => {
   try {
-    // Вытягиваю тело запроса
+    // // Вытягиваю тело запроса
     const bodyData = req.body;
-    // Проверка на валидацию тело body
-    const { error } = addSchema.validate(bodyData);
-    // Если есть ошибка по валидации, выводим её
-    if (error) {
-      throw HttpError(400, error.message);
-    }
+
     const result = await contacts.addContact(bodyData);
     res.status(201).json(result);
   } catch (error) {
@@ -83,19 +68,14 @@ const updateContactById = async (req, res, next) => {
   try {
     // Вытягиваю тело запроса
     const bodyData = req.body;
-    // Проверка на валидацию тело body
-    const { error } = addSchema.validate(bodyData);
-    // Если есть ошибка по валидации, выводим её
-    if (error) {
-      throw HttpError(400, error.message);
-    }
+
     const { contactId } = req.params;
     const result = await contacts.updateContact(contactId, bodyData);
 
     // Если нет объекта с таким id
     if (!result) {
       // Функция для обработки ошибок
-      throw HttpError(404, 'Not found');
+      throw httpError(404, 'Not found');
     }
 
     res.json(result);
@@ -111,7 +91,7 @@ const deleteContact = async (req, res, next) => {
 
     if (!result) {
       // Функция для обработки ошибок
-      throw HttpError(404, 'Not found');
+      throw httpError(404, 'Not found');
     }
 
     res.json({ message: 'contact deleted' });
