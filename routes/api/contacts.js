@@ -1,25 +1,27 @@
-const express = require('express')
+const express = require('express');
 
-const router = express.Router()
+const ctrl = require('../../controllers/contactsControllers');
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const { validateBody } = require('../../middlewares');
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const schemas = require('../../schemas/schemaContacts');
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// Создаёт не новый сервер, а добавляет к существующему 'api.js'
+const router = express.Router();
+// -------------------------------
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/', ctrl.getAllContacts);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+router.get('/:contactId', ctrl.getById);
 
-module.exports = router
+router.post('/', validateBody(schemas.addSchema), ctrl.addContact);
+
+router.put(
+  '/:contactId',
+  validateBody(schemas.addSchema),
+  ctrl.updateContactById
+);
+
+router.delete('/:contactId', ctrl.deleteContact);
+
+module.exports = router;
