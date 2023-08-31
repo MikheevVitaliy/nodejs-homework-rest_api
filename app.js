@@ -3,7 +3,12 @@ const logger = require('morgan');
 const cors = require('cors');
 const moment = require('moment');
 const fs = require('fs/promises');
-
+// -------------------------------
+// const dotenv = require('dotenv');
+// dotenv.config();
+// Тоже самое
+require('dotenv').config();
+// -------------------------------
 const contactsRouter = require('./routes/api/contacts');
 
 const app = express();
