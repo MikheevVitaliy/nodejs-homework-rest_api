@@ -6,7 +6,7 @@ const fs = require('fs/promises');
 // -------------------------------
 // const dotenv = require('dotenv');
 // dotenv.config();
-// Тоже самое
+// Тоже самое когда не нужно сохранять в переменную
 require('dotenv').config();
 // -------------------------------
 const contactsRouter = require('./routes/api/contacts');
