@@ -1,12 +1,13 @@
 // Подключаемся к базе данных
 const mongoose = require('mongoose');
 
-const { DB_NOST } = process.env;
+// const { DB_NOST } = process.env;
 
 const app = require('./app');
 
 // mongoose.set('strictQuery', true);
-
+const DB_NOST =
+  'mongodb+srv://Vitaliy:V24207730vt@cluster0000.rzj8lv7.mongodb.net/db-contacts?retryWrites=true&w=majority';
 mongoose
   .connect(DB_NOST)
   .then(() => {
